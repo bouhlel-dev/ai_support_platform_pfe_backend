@@ -74,6 +74,15 @@ class User(Base, UUIDPrimaryKeyMixin, TimestampMixin, SoftDeleteMixin):
         String(1000),
         nullable=True,
     )
+    two_factor_enabled: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False,
+    )
+    totp_secret: Mapped[str | None] = mapped_column(
+        String(32),
+        nullable=True,
+    )
 
     # ── Relationships ──────────────────────────────
     conversations = relationship("Conversation", back_populates="user", lazy="selectin")

@@ -35,6 +35,8 @@ class UserUpdate(BaseModel):
     locale: Optional[str] = Field(None, max_length=16)
     must_change_password: Optional[bool] = None
     profile_completed: Optional[bool] = None
+    two_factor_enabled: Optional[bool] = None
+    totp_secret: Optional[str] = Field(None, max_length=32)
 
 
 class UserLogin(BaseModel):
@@ -54,6 +56,7 @@ class UserResponse(BaseModel):
     can_reply_conversations: bool
     can_reply_whatsapp: bool
     is_vip: bool = False
+    two_factor_enabled: bool = False
     profile_picture_url: Optional[str] = None
     created_at: datetime
     updated_at: datetime
@@ -76,6 +79,8 @@ class CurrentUserResponse(BaseModel):
     can_reply_conversations: bool
     can_reply_whatsapp: bool
     is_vip: bool = False
+    two_factor_enabled: bool = False
+    two_factor_auth: bool = False
     teams_email: Optional[str] = None
     teams_webhook_url: Optional[str] = None
     timezone: str

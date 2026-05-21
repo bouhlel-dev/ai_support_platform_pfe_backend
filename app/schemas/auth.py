@@ -19,3 +19,21 @@ class TokenPayload(BaseModel):
     sub: str
     exp: int
     type: str
+
+
+class VerifyOtpRequest(BaseModel):
+    temp_token: str
+    otp_code: str
+
+
+class SetupTwoFactorResponse(BaseModel):
+    secret: str
+    qr_code_url: str
+
+
+class VerifyTwoFactorSetupRequest(BaseModel):
+    otp_code: str
+
+
+class DisableTwoFactorRequest(BaseModel):
+    password: str

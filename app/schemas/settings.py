@@ -63,6 +63,14 @@ class AdminSettingsResponse(BaseModel):
     conversation_sla_auto_assign_enabled: bool
     conversation_sla_auto_assign_minutes_before_breach: int
     conversation_sla_autopilot_respect_snooze: bool
+    sms_api_url: str = ""
+    sms_api_key: str = ""
+    sms_sender: str = "L2T"
+    sms_language: str = "en"
+    sms_notify_new_ticket: bool = False
+    sms_notify_status_change: bool = False
+    sms_notify_reply: bool = False
+    sms_notify_resolved: bool = False
 
 
 class GeneralSettingsUpdate(BaseModel):
@@ -119,6 +127,20 @@ class NotificationSettingsUpdate(BaseModel):
     notify_assigned: bool
     notify_overdue: bool
     notify_resolved: bool
+    sms_api_url: str = ""
+    sms_api_key: str = ""
+    sms_sender: str = "L2T"
+    sms_language: str = "en"
+    sms_notify_new_ticket: bool = False
+    sms_notify_status_change: bool = False
+    sms_notify_reply: bool = False
+    sms_notify_resolved: bool = False
+
+
+class SmsTestRequest(BaseModel):
+    phone: str = Field(..., min_length=8, max_length=20)
+    message: str = Field("", max_length=160)
+    language: str = "en"
 
 
 class AutomationSettingsUpdate(BaseModel):

@@ -15,6 +15,7 @@ from app.db.session import get_db
 from app.schemas.common import MessageOut
 from app.schemas.user import (
     CurrentUserResponse,
+    UserCreate,
     UserListResponse,
     UserPasswordChangeRequest,
     UserProfileUpdate,
@@ -64,6 +65,8 @@ async def _build_current_user_response(db: AsyncSession, user: User) -> CurrentU
         "profile_completion_required": bool(
             user.role == UserRole.ADMIN and settings_obj["require_admin_profile_completion"]
         ),
+        "two_factor_enabled": user.two_factor_enabled,
+        "two_factor_auth": bool(settings_obj.get("two_factor_auth", False)),
         "created_at": user.created_at,
         "updated_at": user.updated_at,
     }
@@ -139,6 +142,21 @@ async def upload_profile_picture(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     return await _build_current_user_response(db, user)
+
+
+@router.post("", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+async def create_user(
+    payload: UserCreate,
+    db: Annotated[AsyncSession, Depends(get_db)],
+    _: Annotated[User, Depends(require_admin)],
+):
+    """Create a new user (admin only)."""
+    svc = UserService(db)
+    try:
+        user = await svc.create_user(payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(exc))
+    return user
 
 
 @router.get("", response_model=UserListResponse)

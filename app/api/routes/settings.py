@@ -19,10 +19,12 @@ from app.schemas.settings import (
     NotificationSettingsUpdate,
     PublicAuthSettingsResponse,
     SecuritySettingsUpdate,
+    SmsTestRequest,
     TicketSettingsUpdate,
 )
 from app.services.audit_service import AuditService
 from app.services.settings_service import SettingsService
+from app.services.sms_service import SmsService
 
 router = APIRouter(prefix="/settings", tags=["Settings"])
 
@@ -175,3 +177,17 @@ async def update_automation_settings(
         db=db,
         current_user=current_user,
     )
+
+
+@router.post("/sms/test")
+async def test_sms(
+    payload: SmsTestRequest,
+    db: Annotated[AsyncSession, Depends(get_db)],
+    _: Annotated[User, Depends(require_admin)],
+):
+    settings_service = SettingsService(db)
+    sms_service = SmsService(settings_service)
+    config = await sms_service._get_config()
+    if not sms_service.is_configured(config):
+        return {"success": False, "message": "SMS not configured — set API URL and key first."}
+    return await sms_service.test_connection(payload.phone, payload.message)
