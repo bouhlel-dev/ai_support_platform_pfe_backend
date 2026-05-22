@@ -38,7 +38,7 @@ services:
       dockerfile: Dockerfile
     container_name: support_api
     ports:
-      - "9000:8000"
+      - "9000:9000"
     env_file:
       - .env
     environment:
@@ -48,7 +48,7 @@ services:
       CELERY_RESULT_BACKEND: redis://redis:6379/3
       LIVEKIT_URL: ws://livekit:7880
       BACKEND_API_URL: http://localhost:9000
-      VOICE_AGENTS_CONTROL_URL: http://livekit:9001
+      VOICE_AGENTS_CONTROL_URL: http://livekit:9001 
       API_RELOAD: ${API_RELOAD:-false}
       API_WORKERS: ${API_WORKERS:-4}
     depends_on:

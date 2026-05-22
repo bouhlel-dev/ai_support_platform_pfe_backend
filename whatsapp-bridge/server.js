@@ -38,7 +38,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 const WEBHOOK_URL =
-  process.env.WEBHOOK_URL || "http://api:8000/api/v1/whatsapp/bridge/webhook";
+  process.env.WEBHOOK_URL || "http://api:9000/api/v1/whatsapp/bridge/webhook";
 const API_KEY = process.env.API_KEY || "";
 
 const AUTH_DIR = "/data/auth";
