@@ -131,4 +131,4 @@ def get_logs(lines: int = 200):
     return {"lines": data[-lines:] if lines > 0 else []}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="0.0.0.0", port=9001)

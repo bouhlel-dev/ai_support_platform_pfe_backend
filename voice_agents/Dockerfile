@@ -24,7 +24,7 @@ COPY . .
 RUN mkdir -p /app/recordings /app/uploads
 
 # Expose control API port
-EXPOSE 8001
+EXPOSE 9001
 
 # ── Runtime ─────────────────────────────────────
 # Uses the project's control_api.py to expose /start and /stop

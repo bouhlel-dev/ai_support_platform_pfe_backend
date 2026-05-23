@@ -49,7 +49,7 @@ import httpx
 
 class VoiceAgentProcessManagerProxy:
     def __init__(self) -> None:
-        self.control_url = os.getenv("VOICE_AGENTS_CONTROL_URL", "http://voice_agents:8001")
+        self.control_url = os.getenv("VOICE_AGENTS_CONTROL_URL", "http://voice_agents:9001")
         self.project_root = Path(__file__).resolve().parents[3]
         self.runtime_dir = self.project_root / "uploads"
         self.runtime_dir.mkdir(parents=True, exist_ok=True)
